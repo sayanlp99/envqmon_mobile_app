@@ -6,16 +6,23 @@ part 'home_model.g.dart';
 class HomeModel {
   @JsonKey(name: 'home_id')
   final String homeId;
-  final String name;
+  @JsonKey(name: 'home_name')
+  final String homeName;
   final String address;
   @JsonKey(name: 'user_id')
   final String userId;
+  @JsonKey(name: 'createdAt')
+  final String createdAt;
+  @JsonKey(name: 'updatedAt')
+  final String updatedAt;
 
   HomeModel({
     required this.homeId,
-    required this.name,
+    required this.homeName,
     required this.address,
     required this.userId,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   factory HomeModel.fromJson(Map<String, dynamic> json) => _$HomeModelFromJson(json);

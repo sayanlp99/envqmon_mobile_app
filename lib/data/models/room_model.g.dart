@@ -8,14 +8,20 @@ part of 'room_model.dart';
 
 RoomModel _$RoomModelFromJson(Map<String, dynamic> json) => RoomModel(
   roomId: json['room_id'] as String,
-  name: json['name'] as String,
+  roomName: json['room_name'] as String,
   homeId: json['home_id'] as String,
   userId: json['user_id'] as String,
+  type: json['type'] as String?,
+  createdAt: json['createdAt'] as String,
+  updatedAt: json['updatedAt'] as String,
 );
 
 Map<String, dynamic> _$RoomModelToJson(RoomModel instance) => <String, dynamic>{
   'room_id': instance.roomId,
-  'name': instance.name,
+  'room_name': instance.roomName,
   'home_id': instance.homeId,
   'user_id': instance.userId,
+  'type': instance.type,
+  'createdAt': instance.createdAt,
+  'updatedAt': instance.updatedAt,
 };

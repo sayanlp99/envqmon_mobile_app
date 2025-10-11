@@ -18,8 +18,8 @@ class DeviceRepository {
         'Authorization': 'Bearer $token',
       },
       body: jsonEncode({
-        'name': name,
-        'imei': imei,
+        'device_name': name,
+        'device_imei': imei,
         'user_id': userId,
       }),
     );
@@ -71,7 +71,7 @@ class DeviceRepository {
     required String token,
   }) async {
     final response = await AppHttpClient.instance.get(
-      Uri.parse('${ApiEndpoints.baseUrl}${ApiEndpoints.getRangeData(deviceId)}?start_time=${startTime.millisecondsSinceEpoch}&end_time=${endTime.millisecondsSinceEpoch}'),
+      Uri.parse('${ApiEndpoints.baseUrl}/data/$deviceId?start=${startTime.millisecondsSinceEpoch ~/ 1000}&end=${endTime.millisecondsSinceEpoch ~/ 1000}'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',

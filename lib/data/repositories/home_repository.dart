@@ -17,7 +17,7 @@ class HomeRepository {
         'Authorization': 'Bearer $token',
       },
       body: jsonEncode({
-        'name': name,
+        'home_name': name,
         'address': address,
         'user_id': userId,
       }),

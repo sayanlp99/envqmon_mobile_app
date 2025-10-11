@@ -44,6 +44,7 @@ class AuthProvider extends ChangeNotifier {
             userId: userId,
             name: name,
             email: email,
+            roles: [], // Default empty roles
             isActive: true,
           );
         }
@@ -65,9 +66,9 @@ class AuthProvider extends ChangeNotifier {
       final response = await _authRepository.login(email: email, password: password);
       
       _currentUser = response.user;
-      _token = response.token;
+      _token = response.accessToken;
 
-      await _localStorage.saveToken(response.token);
+      await _localStorage.saveToken(response.accessToken);
       await _localStorage.saveUserData(
         userId: response.user.userId,
         email: response.user.email,
@@ -98,9 +99,9 @@ class AuthProvider extends ChangeNotifier {
       );
       
       _currentUser = response.user;
-      _token = response.token;
+      _token = response.accessToken;
 
-      await _localStorage.saveToken(response.token);
+      await _localStorage.saveToken(response.accessToken);
       await _localStorage.saveUserData(
         userId: response.user.userId,
         email: response.user.email,

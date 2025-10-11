@@ -17,7 +17,7 @@ class RoomRepository {
         'Authorization': 'Bearer $token',
       },
       body: jsonEncode({
-        'name': name,
+        'room_name': name,
         'home_id': homeId,
         'user_id': userId,
       }),

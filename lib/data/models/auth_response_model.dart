@@ -5,12 +5,15 @@ part 'auth_response_model.g.dart';
 
 @JsonSerializable()
 class AuthResponseModel {
+  final String message;
+  @JsonKey(name: 'access_token')
+  final String accessToken;
   final UserModel user;
-  final String token;
 
   AuthResponseModel({
+    required this.message,
+    required this.accessToken,
     required this.user,
-    required this.token,
   });
 
   factory AuthResponseModel.fromJson(Map<String, dynamic> json) => _$AuthResponseModelFromJson(json);

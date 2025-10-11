@@ -110,7 +110,7 @@ class HomesListScreen extends StatelessWidget {
                     ),
                   ),
                   title: Text(
-                    home.name,
+                    home.homeName,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,

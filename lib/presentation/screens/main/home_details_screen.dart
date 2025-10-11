@@ -49,7 +49,7 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
 
         return Scaffold(
           appBar: AppBar(
-            title: Text(selectedHome.name),
+            title: Text(selectedHome.homeName),
             centerTitle: true,
           ),
           body: Column(
@@ -162,14 +162,14 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
                                     ),
                                   ),
                                   title: Text(
-                                    room.name,
+                                    room.roomName,
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,
                                     ),
                                   ),
                                   subtitle: Text(
-                                    'Room in ${selectedHome.name}',
+                                    'Room in ${selectedHome.homeName}',
                                     style: const TextStyle(color: Colors.grey),
                                   ),
                                   trailing: const Icon(Icons.arrow_forward_ios),

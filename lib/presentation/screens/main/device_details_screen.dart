@@ -51,7 +51,7 @@ class _DeviceDetailsScreenState extends State<DeviceDetailsScreen> {
 
         return Scaffold(
           appBar: AppBar(
-            title: Text(selectedDevice.name),
+            title: Text(selectedDevice.deviceName),
             centerTitle: true,
             actions: [
               IconButton(
@@ -100,7 +100,7 @@ class _DeviceDetailsScreenState extends State<DeviceDetailsScreen> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'IMEI: ${selectedDevice.imei}',
+                      'IMEI: ${selectedDevice.deviceImei}',
                       style: const TextStyle(
                         color: Colors.grey,
                         fontSize: 14,

@@ -113,7 +113,7 @@ class DevicesListScreen extends StatelessWidget {
                     ),
                   ),
                   title: Text(
-                    device.name,
+                    device.deviceName,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -123,7 +123,7 @@ class DevicesListScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'IMEI: ${device.imei}',
+                        'IMEI: ${device.deviceImei}',
                         style: const TextStyle(color: Colors.grey),
                       ),
                       const SizedBox(height: 2),

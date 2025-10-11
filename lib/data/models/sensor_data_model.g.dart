@@ -8,6 +8,7 @@ part of 'sensor_data_model.dart';
 
 SensorDataModel _$SensorDataModelFromJson(Map<String, dynamic> json) =>
     SensorDataModel(
+      id: json['id'] as String,
       deviceId: json['device_id'] as String,
       temperature: (json['temperature'] as num).toDouble(),
       humidity: (json['humidity'] as num).toDouble(),
@@ -15,15 +16,16 @@ SensorDataModel _$SensorDataModelFromJson(Map<String, dynamic> json) =>
       co: (json['co'] as num).toDouble(),
       methane: (json['methane'] as num).toDouble(),
       lpg: (json['lpg'] as num).toDouble(),
-      pm25: (json['pm2_5'] as num).toDouble(),
+      pm25: (json['pm25'] as num).toDouble(),
       pm10: (json['pm10'] as num).toDouble(),
       noise: (json['noise'] as num).toDouble(),
       light: (json['light'] as num).toDouble(),
-      timestamp: DateTime.parse(json['timestamp'] as String),
+      recordedAt: json['recorded_at'] as String,
     );
 
 Map<String, dynamic> _$SensorDataModelToJson(SensorDataModel instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'device_id': instance.deviceId,
       'temperature': instance.temperature,
       'humidity': instance.humidity,
@@ -31,9 +33,9 @@ Map<String, dynamic> _$SensorDataModelToJson(SensorDataModel instance) =>
       'co': instance.co,
       'methane': instance.methane,
       'lpg': instance.lpg,
-      'pm2_5': instance.pm25,
+      'pm25': instance.pm25,
       'pm10': instance.pm10,
       'noise': instance.noise,
       'light': instance.light,
-      'timestamp': instance.timestamp.toIso8601String(),
+      'recorded_at': instance.recordedAt,
     };

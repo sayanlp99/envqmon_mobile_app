@@ -118,7 +118,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                     const SizedBox(height: 8),
                     Text(
                       selectedHome != null
-                          ? 'Adding room to ${selectedHome.name}'
+                          ? 'Adding room to ${selectedHome.homeName}'
                           : 'Enter the details of your room',
                       style: const TextStyle(
                         fontSize: 16,
