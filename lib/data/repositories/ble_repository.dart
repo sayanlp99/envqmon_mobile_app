@@ -67,8 +67,9 @@ class BleRepository {
 
   Future<void> configureWifi(BluetoothDevice device, String ssid, String password) async {
     try {
+
       // Connect to device
-      await device.connect();
+      await device.connect(license: License.free);
       
       // Wait for connection to be established
       await device.connectionState
