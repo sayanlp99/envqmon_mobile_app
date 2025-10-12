@@ -102,10 +102,10 @@ class EnvQMonApp extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppConstants.borderRadius),
               ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppConstants.largePadding,
-                vertical: AppConstants.defaultPadding,
-              ),
+              // padding: const EdgeInsets.symmetric(
+              //   horizontal: AppConstants.largePadding,
+              //   vertical: AppConstants.defaultPadding,
+              // ),
             ),
           ),
           cardTheme: CardThemeData(
