@@ -9,7 +9,7 @@ part of 'home_model.dart';
 HomeModel _$HomeModelFromJson(Map<String, dynamic> json) => HomeModel(
   homeId: json['home_id'] as String,
   homeName: json['home_name'] as String,
-  address: json['address'] as String,
+  address: HomeModel._addressFromJson(json['address']),
   userId: json['user_id'] as String,
   createdAt: json['createdAt'] as String,
   updatedAt: json['updatedAt'] as String,
