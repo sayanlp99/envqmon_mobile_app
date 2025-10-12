@@ -41,7 +41,7 @@ class BleRepository {
     // Start scanning
     await FlutterBluePlus.startScan(
       timeout: const Duration(seconds: 15),
-      withNames: ['${BleConstants.devicePrefix}*'], // Match devices starting with ENVQMON-
+      // withNames: ['${BleConstants.devicePrefix}*'], // Match devices starting with ENVQMON-
     );
   }
 

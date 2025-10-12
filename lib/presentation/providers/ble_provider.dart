@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:envqmon/data/models/ble_device_model.dart';
 import 'package:envqmon/data/repositories/ble_repository.dart';
 
@@ -26,6 +27,8 @@ class BleProvider extends ChangeNotifier {
 
   Future<void> initialize() async {
     try {
+      // Request necessary permissions for BLE
+      await _requestBlePermissions();
       await _bleRepository.initialize();
       _isInitialized = true;
       _error = null;
@@ -33,6 +36,23 @@ class BleProvider extends ChangeNotifier {
     } catch (e) {
       _error = e.toString();
       notifyListeners();
+    }
+  }
+
+  Future<void> _requestBlePermissions() async {
+    // Request permissions for both Android and iOS
+    final permissions = [
+      Permission.bluetooth,
+      Permission.bluetoothScan,
+      Permission.bluetoothConnect,
+      Permission.bluetoothAdvertise,
+      Permission.locationWhenInUse,
+      Permission.location,
+    ];
+    Map<Permission, PermissionStatus> statuses = await permissions.request();
+    // Check if any permission is denied
+    if (statuses.values.any((status) => status.isDenied || status.isPermanentlyDenied)) {
+      throw Exception('Bluetooth and Location permissions are required to use BLE features. Please enable them in settings.');
     }
   }
 
