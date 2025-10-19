@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "987930104518",
+    "project_id": "envqmon",
+    "storage_bucket": "envqmon.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:987930104518:android:8340c61e7638850d0f7dc7",
+        "android_client_info": {
+          "package_name": "fit.sayan.envqmon.envqmon"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmWG2HaOmNEhm1tTNgeSAEQ3jd60NnyUQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
