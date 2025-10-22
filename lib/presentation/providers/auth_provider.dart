@@ -2,16 +2,22 @@ import 'package:flutter/foundation.dart';
 import 'package:envqmon/data/models/user_model.dart';
 import 'package:envqmon/data/repositories/auth_repository.dart';
 import 'package:envqmon/data/datasources/local_storage_service.dart';
+import 'package:envqmon/core/services/fcm_service.dart';
 
 class AuthProvider extends ChangeNotifier {
   final AuthRepository _authRepository;
   final LocalStorageService _localStorage;
+  FcmService? _fcmService;
 
   AuthProvider({
     required AuthRepository authRepository,
     required LocalStorageService localStorage,
   }) : _authRepository = authRepository,
        _localStorage = localStorage;
+
+  void setFcmService(FcmService fcmService) {
+    _fcmService = fcmService;
+  }
 
   bool _isLoading = false;
   String? _error;
@@ -75,6 +81,22 @@ class AuthProvider extends ChangeNotifier {
         name: response.user.name,
       );
 
+      // Register FCM token after successful login (non-blocking)
+      if (_fcmService != null) {
+        _fcmService!.registerFcmToken(
+          userId: response.user.userId,
+          authToken: response.accessToken,
+        ).then((success) {
+          if (success) {
+            print('FCM token registered successfully after login');
+          } else {
+            print('Failed to register FCM token after login');
+          }
+        }).catchError((error) {
+          print('Error in FCM registration after login: $error');
+        });
+      }
+
       _isLoading = false;
       notifyListeners();
       return true;
@@ -107,6 +129,22 @@ class AuthProvider extends ChangeNotifier {
         email: response.user.email,
         name: response.user.name,
       );
+
+      // Register FCM token after successful registration (non-blocking)
+      if (_fcmService != null) {
+        _fcmService!.registerFcmToken(
+          userId: response.user.userId,
+          authToken: response.accessToken,
+        ).then((success) {
+          if (success) {
+            print('FCM token registered successfully after registration');
+          } else {
+            print('Failed to register FCM token after registration');
+          }
+        }).catchError((error) {
+          print('Error in FCM registration after registration: $error');
+        });
+      }
 
       _isLoading = false;
       notifyListeners();

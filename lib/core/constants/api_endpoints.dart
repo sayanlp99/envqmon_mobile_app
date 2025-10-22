@@ -8,6 +8,8 @@ class ApiEndpoints {
   static const String devices = '/devices';
   static const String latestData = '/data/latest/:device_id';
   static const String rangeData = '/data/range/:device_id';
+  static const String registerFcmToken = '/alerts/register';
+  static const String getAlerts = '/alerts';
 
   static String getHomeById(String homeId) => '/homes/$homeId';
   static String getLatestData(String deviceId) => '/data/latest/$deviceId';

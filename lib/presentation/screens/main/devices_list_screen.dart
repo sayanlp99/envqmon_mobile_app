@@ -6,6 +6,7 @@ import 'package:envqmon/presentation/screens/main/add_device_screen.dart';
 import 'package:envqmon/presentation/screens/main/device_details_screen.dart';
 import 'package:envqmon/presentation/widgets/loading_indicator.dart';
 import 'package:envqmon/core/constants/app_constants.dart';
+import 'package:envqmon/presentation/screens/main/alerts_screen.dart';
 
 class DevicesListScreen extends StatelessWidget {
   const DevicesListScreen({super.key});
@@ -16,6 +17,16 @@ class DevicesListScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('My Devices'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.notifications),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const AlertsScreen()),
+              );
+            },
+          ),
+        ],
       ),
       body: Consumer2<AuthProvider, DeviceProvider>(
         builder: (context, authProvider, deviceProvider, child) {

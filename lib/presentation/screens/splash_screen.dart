@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:envqmon/presentation/providers/auth_provider.dart';
+import 'package:envqmon/core/services/fcm_service.dart';
 import 'package:envqmon/core/constants/app_constants.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -36,7 +37,25 @@ class _SplashScreenState extends State<SplashScreen>
 
   Future<void> _initializeApp() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final fcmService = Provider.of<FcmService>(context, listen: false);
+    
     await authProvider.initialize();
+
+    // If user is logged in, register FCM token (non-blocking)
+    if (authProvider.isLoggedIn && authProvider.currentUser != null && authProvider.token != null) {
+      fcmService.registerFcmToken(
+        userId: authProvider.currentUser!.userId,
+        authToken: authProvider.token!,
+      ).then((success) {
+        if (success) {
+          print('FCM token registered successfully on app start');
+        } else {
+          print('Failed to register FCM token on app start');
+        }
+      }).catchError((error) {
+        print('Error in FCM registration on app start: $error');
+      });
+    }
 
     // Wait for animation to complete
     await Future.delayed(const Duration(seconds: 2));

@@ -6,6 +6,7 @@ import 'package:envqmon/presentation/providers/ble_provider.dart';
 import 'package:envqmon/presentation/providers/home_provider.dart';
 import 'package:envqmon/presentation/providers/room_provider.dart';
 import 'package:envqmon/presentation/providers/device_provider.dart';
+import 'package:envqmon/presentation/providers/alert_provider.dart';
 import 'package:envqmon/presentation/screens/splash_screen.dart';
 import 'package:envqmon/presentation/screens/auth/login_screen.dart';
 import 'package:envqmon/presentation/screens/main/dashboard_screen.dart';
@@ -14,7 +15,9 @@ import 'package:envqmon/data/repositories/ble_repository.dart';
 import 'package:envqmon/data/repositories/home_repository.dart';
 import 'package:envqmon/data/repositories/room_repository.dart';
 import 'package:envqmon/data/repositories/device_repository.dart';
+import 'package:envqmon/data/repositories/alert_repository.dart';
 import 'package:envqmon/data/datasources/local_storage_service.dart';
+import 'package:envqmon/core/services/fcm_service.dart';
 
 class EnvQMonApp extends StatelessWidget {
   const EnvQMonApp({super.key});
@@ -41,11 +44,23 @@ class EnvQMonApp extends StatelessWidget {
         Provider<DeviceRepository>(
           create: (_) => DeviceRepository(),
         ),
-        ChangeNotifierProvider<AuthProvider>(
-          create: (context) => AuthProvider(
-            authRepository: context.read<AuthRepository>(),
-            localStorage: context.read<LocalStorageService>(),
+        Provider<AlertRepository>(
+          create: (_) => AlertRepository(),
+        ),
+        Provider<FcmService>(
+          create: (context) => FcmService(
+            alertRepository: context.read<AlertRepository>(),
           ),
+        ),
+        ChangeNotifierProvider<AuthProvider>(
+          create: (context) {
+            final authProvider = AuthProvider(
+              authRepository: context.read<AuthRepository>(),
+              localStorage: context.read<LocalStorageService>(),
+            );
+            authProvider.setFcmService(context.read<FcmService>());
+            return authProvider;
+          },
         ),
         ChangeNotifierProxyProvider<AuthProvider, BleProvider>(
           create: (context) => BleProvider(
@@ -77,6 +92,14 @@ class EnvQMonApp extends StatelessWidget {
           ),
           update: (context, authProvider, previous) => previous ?? DeviceProvider(
             deviceRepository: context.read<DeviceRepository>(),
+          ),
+        ),
+        ChangeNotifierProxyProvider<AuthProvider, AlertProvider>(
+          create: (context) => AlertProvider(
+            alertRepository: context.read<AlertRepository>(),
+          ),
+          update: (context, authProvider, previous) => previous ?? AlertProvider(
+            alertRepository: context.read<AlertRepository>(),
           ),
         ),
       ],
