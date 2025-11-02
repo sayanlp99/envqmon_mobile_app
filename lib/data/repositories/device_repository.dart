@@ -63,6 +63,8 @@ class DeviceRepository {
       if (jsonBody == null) {
         throw Exception('API returned null response for latest data');
       }
+      jsonBody['device_id'] = deviceId;
+      jsonBody['id'] = 1;
       return SensorDataModel.fromJson(jsonBody);
     } else if (response.statusCode == 404) {
       // Device has no data yet

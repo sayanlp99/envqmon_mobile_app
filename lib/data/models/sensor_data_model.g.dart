@@ -8,7 +8,7 @@ part of 'sensor_data_model.dart';
 
 SensorDataModel _$SensorDataModelFromJson(Map<String, dynamic> json) =>
     SensorDataModel(
-      id: json['id'] as String,
+      id: _parseInt(json['id']),
       deviceId: json['device_id'] as String,
       temperature: (json['temperature'] as num).toDouble(),
       humidity: (json['humidity'] as num).toDouble(),
@@ -21,7 +21,7 @@ SensorDataModel _$SensorDataModelFromJson(Map<String, dynamic> json) =>
       pm10: (json['pm10'] as num).toDouble(),
       noise: (json['noise'] as num).toDouble(),
       light: (json['light'] as num).toDouble(),
-      recordedAt: json['recorded_at'] as String,
+      recordedAt: _parseInt(json['recorded_at']),
     );
 
 Map<String, dynamic> _$SensorDataModelToJson(SensorDataModel instance) =>
