@@ -1,6 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:envqmon/data/repositories/alert_repository.dart';
-import 'package:envqmon/data/models/fcm_registration_model.dart';
 import 'package:envqmon/core/constants/app_config.dart';
 
 class FcmService {

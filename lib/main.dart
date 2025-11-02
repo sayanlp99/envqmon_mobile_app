@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:provider/provider.dart';
 import 'package:envqmon/app.dart';
 import 'package:envqmon/firebase_options.dart';
-import 'package:envqmon/core/services/fcm_service.dart';
 import 'package:envqmon/core/services/network_test_service.dart';
-import 'package:envqmon/presentation/providers/auth_provider.dart';
 
 // Handle background messages for FCM
 @pragma('vm:entry-point')

@@ -23,8 +23,10 @@ class _HistoricalDataScreenState extends State<HistoricalDataScreen> {
     'humidity',
     'pressure',
     'co',
+    'co2',
     'pm25',
     'noise',
+    'light',
   ];
 
   @override
@@ -148,6 +150,45 @@ class _HistoricalDataScreenState extends State<HistoricalDataScreen> {
               Expanded(
                 child: deviceProvider.isLoading
                     ? const LoadingIndicator(message: 'Loading historical data...')
+                    : deviceProvider.error != null && historicalData.isEmpty
+                        ? Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.error_outline,
+                                  size: 64,
+                                  color: Colors.red,
+                                ),
+                                const SizedBox(height: 16),
+                                const Text(
+                                  'Error loading data',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 32),
+                                  child: Text(
+                                    deviceProvider.error ?? 'Unknown error',
+                                    style: const TextStyle(color: Colors.grey),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                const SizedBox(height: 24),
+                                ElevatedButton.icon(
+                                  onPressed: () {
+                                    deviceProvider.clearError();
+                                    _loadHistoricalData();
+                                  },
+                                  icon: const Icon(Icons.refresh),
+                                  label: const Text('Retry'),
+                                ),
+                              ],
+                            ),
+                          )
                     : historicalData.isEmpty
                         ? Center(
                             child: Column(
@@ -241,6 +282,8 @@ class _HistoricalDataScreenState extends State<HistoricalDataScreen> {
         return 'PM2.5';
       case 'noise':
         return 'Noise';
+      case 'light':
+        return 'Light';
       default:
         return parameter;
     }
@@ -260,6 +303,8 @@ class _HistoricalDataScreenState extends State<HistoricalDataScreen> {
         return ' μg/m³';
       case 'noise':
         return ' dB';
+      case 'light':
+        return ' lux';
       default:
         return '';
     }
@@ -279,6 +324,8 @@ class _HistoricalDataScreenState extends State<HistoricalDataScreen> {
         return Icons.cloud;
       case 'noise':
         return Icons.volume_up;
+      case 'light':
+        return Icons.wb_sunny;
       default:
         return Icons.sensors;
     }
@@ -308,6 +355,10 @@ class _HistoricalDataScreenState extends State<HistoricalDataScreen> {
         if (value > 70) return Colors.red;
         if (value > 50) return Colors.orange;
         return Colors.green;
+      case 'light':
+        if (value > 1000) return Colors.red;
+        if (value > 500) return Colors.orange;
+        return Colors.green;
       default:
         return AppConstants.primaryColor;
     }
@@ -327,6 +378,8 @@ class _HistoricalDataScreenState extends State<HistoricalDataScreen> {
         return data.pm25;
       case 'noise':
         return data.noise;
+      case 'light':
+        return data.light;
       default:
         return 0.0;
     }

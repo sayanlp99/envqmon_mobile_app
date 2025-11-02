@@ -11,6 +11,7 @@ class SensorDataModel {
   final double humidity;
   final double pressure;
   final double co;
+  final double co2;
   final double methane;
   final double lpg;
   @JsonKey(name: 'pm25')
@@ -28,6 +29,7 @@ class SensorDataModel {
     required this.humidity,
     required this.pressure,
     required this.co,
+    required this.co2,
     required this.methane,
     required this.lpg,
     required this.pm25,

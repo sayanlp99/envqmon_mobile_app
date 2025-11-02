@@ -58,9 +58,17 @@ class DeviceRepository {
     );
 
     if (response.statusCode == 200) {
-      return SensorDataModel.fromJson(jsonDecode(response.body));
+      final jsonBody = jsonDecode(response.body);
+      // Handle case where API might return an empty response or null
+      if (jsonBody == null) {
+        throw Exception('API returned null response for latest data');
+      }
+      return SensorDataModel.fromJson(jsonBody);
+    } else if (response.statusCode == 404) {
+      // Device has no data yet
+      throw Exception('No data available for this device');
     } else {
-      throw Exception('Failed to get latest data: ${response.reasonPhrase}');
+      throw Exception('Failed to get latest data: ${response.statusCode} - ${response.reasonPhrase} - ${response.body}');
     }
   }
 
@@ -70,8 +78,17 @@ class DeviceRepository {
     required DateTime endTime,
     required String token,
   }) async {
+    final fromTs = startTime.millisecondsSinceEpoch ~/ 1000;
+    final toTs = endTime.millisecondsSinceEpoch ~/ 1000;
+    final uri = Uri.parse('${ApiEndpoints.baseUrl}/data/range')
+        .replace(queryParameters: {
+      'device_id': deviceId,
+      'from_ts': fromTs.toString(),
+      'to_ts': toTs.toString(),
+    });
+
     final response = await AppHttpClient.instance.get(
-      Uri.parse('${ApiEndpoints.baseUrl}/data/$deviceId?start=${startTime.millisecondsSinceEpoch ~/ 1000}&end=${endTime.millisecondsSinceEpoch ~/ 1000}'),
+      uri,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
@@ -79,10 +96,21 @@ class DeviceRepository {
     );
 
     if (response.statusCode == 200) {
-      final List<dynamic> jsonList = jsonDecode(response.body);
-      return jsonList.map((json) => SensorDataModel.fromJson(json)).toList();
+      final jsonBody = jsonDecode(response.body);
+      // Handle case where API might return an empty list or null
+      if (jsonBody == null) {
+        return [];
+      }
+      if (jsonBody is List) {
+        return jsonBody.map((json) => SensorDataModel.fromJson(json)).toList();
+      }
+      // If it's not a list, return empty list
+      return [];
+    } else if (response.statusCode == 404) {
+      // No data for the date range
+      return [];
     } else {
-      throw Exception('Failed to get range data: ${response.reasonPhrase}');
+      throw Exception('Failed to get range data: ${response.statusCode} - ${response.reasonPhrase} - ${response.body}');
     }
   }
 }

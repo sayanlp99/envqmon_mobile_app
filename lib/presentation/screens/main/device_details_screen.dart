@@ -154,6 +154,45 @@ class _DeviceDetailsScreenState extends State<DeviceDetailsScreen> {
               Expanded(
                 child: deviceProvider.isLoading
                     ? const LoadingIndicator(message: 'Loading latest data...')
+                    : deviceProvider.error != null && latestData == null
+                        ? Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.error_outline,
+                                  size: 64,
+                                  color: Colors.red,
+                                ),
+                                const SizedBox(height: 16),
+                                const Text(
+                                  'Error loading data',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 32),
+                                  child: Text(
+                                    deviceProvider.error ?? 'Unknown error',
+                                    style: const TextStyle(color: Colors.grey),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                const SizedBox(height: 24),
+                                ElevatedButton.icon(
+                                  onPressed: () {
+                                    deviceProvider.clearError();
+                                    _loadLatestData();
+                                  },
+                                  icon: const Icon(Icons.refresh),
+                                  label: const Text('Retry'),
+                                ),
+                              ],
+                            ),
+                          )
                     : latestData == null
                         ? Center(
                             child: Column(
@@ -219,6 +258,12 @@ class _DeviceDetailsScreenState extends State<DeviceDetailsScreen> {
                                 color: _getCOColor(latestData.co),
                               ),
                               DataCard(
+                                title: 'CO2 Level',
+                                value: '${latestData.co2.toStringAsFixed(1)} ppm',
+                                icon: Icons.dangerous,
+                                color: _getCO2Color(latestData.co2),
+                              ),
+                              DataCard(
                                 title: 'PM2.5',
                                 value: '${latestData.pm25.toStringAsFixed(1)} μg/m³',
                                 icon: Icons.cloud,
@@ -229,6 +274,12 @@ class _DeviceDetailsScreenState extends State<DeviceDetailsScreen> {
                                 value: '${latestData.noise.toStringAsFixed(1)} dB',
                                 icon: Icons.volume_up,
                                 color: _getNoiseColor(latestData.noise),
+                              ),
+                              DataCard(
+                                title: 'Light',
+                                value: '${latestData.light.toStringAsFixed(1)} lux',
+                                icon: Icons.wb_sunny,
+                                color: _getLightColor(latestData.light),
                               ),
                             ],
                           ),
@@ -262,6 +313,12 @@ class _DeviceDetailsScreenState extends State<DeviceDetailsScreen> {
     return Colors.green;
   }
 
+  Color _getCO2Color(double co2) {
+    if (co2 > 1000) return Colors.red;
+    if (co2 > 500) return Colors.orange;
+    return Colors.green;
+  }
+
   Color _getPMColor(double pm) {
     if (pm > 35) return Colors.red;
     if (pm > 15) return Colors.orange;
@@ -271,6 +328,12 @@ class _DeviceDetailsScreenState extends State<DeviceDetailsScreen> {
   Color _getNoiseColor(double noise) {
     if (noise > 70) return Colors.red;
     if (noise > 50) return Colors.orange;
+    return Colors.green;
+  }
+
+  Color _getLightColor(double light) {
+    if (light > 1000) return Colors.red;
+    if (light > 500) return Colors.orange;
     return Colors.green;
   }
 }
